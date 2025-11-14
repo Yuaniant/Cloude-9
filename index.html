@@ -1,165 +1,248 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CLAUDE 9 HIGHLIGHTS</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CLAUDE 9 HIGHLIGHTS</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    /* ---------- Reset & base ---------- */
+    :root{
+      --bg: #ffffff;
+      --ink: #0b0b0b;
+      --muted: #666;
+      --white-border: #ffffff;
+      --accent: #111;
+      --ring-color: #ffd84d; /* enchanted yellow ring */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, "Noto Sans JP", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:linear-gradient(#fff,#fbfbfb); color:var(--ink); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    a{color:inherit;text-decoration:none}
 
-<style>
-  :root{
-    --bg:#fff;
-    --ink:#0b0b0b;
-    --muted:#666;
-    --white-border: #ffffff;
-    --accent: #111;
-  }
-  html,body{height:100%;margin:0;font-family:"Noto Sans JP",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(#fff,#f7f7f8);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  /* PAGE FRAME */
-  .page-wrap{
-    max-width:980px;margin:28px auto;padding:28px;border-radius:18px;background:linear-gradient(180deg,#fff,#fbfbfb);
-    border:6px solid var(--white-border);box-shadow:0 12px 48px rgba(8,8,8,0.06);position:relative;overflow:hidden;
-  }
-  /* pixel overlay */
-  .page-wrap::after{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background-image:
-      linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
-    background-size:6px 6px, 6px 6px;mix-blend-mode:overlay;opacity:0.6;
-  }
+    /* ---------- main frame with white border ---------- */
+    .page-wrap{
+      max-width:980px;
+      margin:28px auto;
+      padding:28px;
+      border-radius:18px;
+      background:linear-gradient(180deg,#fff,#fbfbfb);
+      border:6px solid var(--white-border);
+      box-shadow:0 14px 48px rgba(10,10,10,0.06);
+      position:relative;
+      overflow:hidden;
+    }
 
-  /* Clouds (fog) */
-  .cloud {
-    position:absolute;top:0;left:-30%;width:160%;height:220px;pointer-events:none;filter:blur(18px);opacity:0.14;
-    background:
-      radial-gradient(40% 60% at 10% 40%, rgba(245,245,245,0.95), rgba(245,245,245,0) 30%),
+    /* subtle pixel grid overlay for retro feel */
+    .page-wrap::after{
+      content:"";
+      position:absolute;inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.012) 1px, transparent 1px);
+      background-size:8px 8px, 8px 8px;
+      mix-blend-mode:overlay;
+      opacity:0.6;
+    }
+
+    /* ---------- clouds / fog layers ---------- */
+    .cloud{
+      position:absolute;
+      left:-30%;
+      width:160%;
+      height:220px;
+      pointer-events:none;
+      filter:blur(18px);
+      opacity:0.12;
+      background:
+        radial-gradient(40% 60% at 10% 40%, rgba(250,250,250,0.95), rgba(250,250,250,0) 30%),
+        radial-gradient(45% 60% at 30% 50%, rgba(250,250,250,0.95), rgba(250,250,250,0) 35%),
+        radial-gradient(50% 60% at 65% 45%, rgba(250,250,250,0.95), rgba(250,250,250,0) 40%);
+      transform:translate3d(0,0,0);
+      animation: drift 60s linear infinite;
+    }
+    .cloud.c2{top:80px;opacity:0.10;animation-duration:90s;filter:blur(22px);transform:scale(1.05)}
+    .cloud.c3{top:160px;opacity:0.08;animation-duration:120s;filter:blur(28px);transform:scale(1.1)}
+    @keyframes drift{
+      0%{transform:translateX(-22%)}
+      100%{transform:translateX(22%)}
+    }
+
+    /* ---------- header ---------- */
+    header{display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid #eee;padding-bottom:16px}
+    .title{display:flex;flex-direction:column}
+    .pixel-title{font-family:"Courier New", monospace;font-size:12px;letter-spacing:2px;padding:6px 10px;border-radius:8px;border:2px solid #111;display:inline-block;background:linear-gradient(#fff,#f7f7f7)}
+    h1{font-family: "Courier New", monospace; font-size:20px;margin:6px 0 0;}
+    .subtitle{color:var(--muted);font-weight:500;font-size:13px;margin-top:6px}
+
+    .controls{display:flex;gap:10px;align-items:center}
+    .discord-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid #111;background:transparent;color:var(--ink);text-decoration:none;font-weight:700;transition:transform .18s,background .18s}
+    .discord-btn:hover{transform:translateY(-4px);background:#111;color:white}
+    .discord-dot{width:10px;height:10px;border-radius:2px;background:#5865F2;box-shadow:0 6px 20px rgba(88,101,242,.12)}
+
+    /* ---------- sections & cards ---------- */
+    .section{margin-top:22px}
+    h2{font-size:18px;margin:8px 0;color:var(--ink)}
+    .lead{color:var(--muted);max-width:760px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:12px}
+    .card{background:#fff;border-radius:12px;padding:12px;border:1px solid #eee;box-shadow:0 6px 20px rgba(3,3,3,0.03);transition:transform .16s}
+    .card:hover{transform:translateY(-8px)}
+
+    /* ---------- team ---------- */
+    .team{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:12px}
+    .leader{min-width:170px;padding:12px;border-radius:10px;border:1px dashed #e9e9e9;background:linear-gradient(#fff,#fafafa);text-align:center;font-weight:700}
+    .members{display:flex;flex-direction:column;gap:8px}
+    .member{padding:8px 10px;border-radius:8px;border:1px solid #f0f0f0;background:linear-gradient(#fff,#fff);font-weight:600}
+
+    /* ---------- shop list ---------- */
+    .shop{margin-top:20px}
+    .shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .shop-item{background:#fff;border-radius:10px;padding:10px;border:1px solid #eee;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+
+    /* ---------- footer ---------- */
+    footer{margin-top:26px;padding-top:16px;border-top:1px solid #f1f1f1;color:var(--muted);text-align:center}
+
+    /* ---------- intro overlay (iPhone swipe vibe) ---------- */
+    .intro-screen{
+      position:fixed;inset:0;background:linear-gradient(180deg,#ffffff,#fbfbfb);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;backdrop-filter:blur(2px);padding:30px;transition:opacity .8s ease,transform .8s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .intro-hidden{opacity:0;pointer-events:none;transform:translateY(-18px)}
+    .ring-container{width:180px;height:180px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 10px 30px rgba(255,168,45,0.16));}
+    /* ring styling: use inline SVG below */
+    .ring-svg{width:100%;height:100%;display:block;transform-origin:50% 50%;animation: ringSpin 4.8s linear infinite}
+    @keyframes ringSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    /* enchanted glow pulse */
+    .ring-glow{mix-blend-mode:screen;filter:blur(12px);opacity:0.9;animation: glowPulse 2.6s ease-in-out infinite}
+    @keyframes glowPulse{0%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.03)}100%{opacity:.7;transform:scale(1)}}
+
+    .intro-text h1{font-size:28px;margin:0;font-weight:700;letter-spacing:1px}
+    .intro-text p{margin:0;color:var(--muted);font-weight:600}
+
+    .enter-btn{margin-top:10px;padding:10px 18px;border-radius:10px;border:none;background:#111;color:#fff;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.12)}
+    .enter-btn:active{transform:translateY(2px)}
+
+    /* fog overlays inside intro for more vibe */
+    .intro-fog{position:absolute;inset:0;pointer-events:none;opacity:0.18}
+    .intro-fog .f{position:absolute;width:220%;height:260px;left:-30%;background:
+      radial-gradient(40% 60% at 10% 40%, rgba(250,250,250,0.95), rgba(250,250,250,0) 30%),
       radial-gradient(45% 60% at 30% 50%, rgba(250,250,250,0.95), rgba(250,250,250,0) 35%),
-      radial-gradient(50% 60% at 65% 45%, rgba(245,245,245,0.95), rgba(245,245,245,0) 40%);
-    transform:translate3d(0,0,0);
-    animation: drift 40s linear infinite;
-  }
-  .cloud.cloud-2{top:60px;opacity:0.12;animation-duration:70s;filter:blur(22px);transform:scale(1.05)}
-  .cloud.cloud-3{top:140px;opacity:0.08;animation-duration:100s;filter:blur(28px);transform:scale(1.1)}
+      radial-gradient(50% 60% at 65% 45%, rgba(250,250,250,0.95), rgba(250,250,250,0) 40%);
+      filter:blur(18px);
+      animation: driftIntro 30s linear infinite;
+    }
+    .intro-fog .g{top:30px;opacity:0.14;animation-duration:48s;filter:blur(22px)}
+    @keyframes driftIntro{0%{transform:translateX(-22%)}100%{transform:translateX(22%)}}
 
-  @keyframes drift{
-    0%{transform:translateX(-20%)}
-    100%{transform:translateX(20%)}
-  }
+    /* ---------- sakura petals (generated elements) ---------- */
+    .petal{position:fixed;left:0;top:-10vh;width:28px;height:28px;pointer-events:none;z-index:10000;opacity:0.95;will-change:transform,opacity}
 
-  header{display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid #eee;padding-bottom:16px}
-  .title{display:flex;flex-direction:column}
-  .pixel-title{font-family:"Press Start 2P",monospace;font-size:12px;letter-spacing:2px;padding:6px 10px;border-radius:8px;border:2px solid #111;display:inline-block}
-  h1{font-family:"Press Start 2P",monospace;margin:6px 0 0;font-size:20px}
-  .subtitle{color:var(--muted);font-weight:500;font-size:13px;margin-top:6px}
+    /* ---------- reveal animation for page content ---------- */
+    .reveal{opacity:0;transform:translateY(8px);transition:opacity .8s ease,transform .8s ease}
+    .reveal.visible{opacity:1;transform:none}
 
-  .controls{display:flex;gap:10px;align-items:center}
-  .discord-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid #111;background:transparent;color:var(--ink);text-decoration:none;font-weight:700;transition:transform .18s,background .18s, color .18s}
-  .discord-btn:hover{transform:translateY(-4px);background:#111;color:white}
-  .discord-btn .dot{width:10px;height:10px;border-radius:2px;background:#5865F2;box-shadow:0 6px 20px rgba(88,101,242,.12)}
-
-  /* Sections & cards */
-  .section{margin-top:22px}
-  h2{font-size:18px;margin:8px 0;color:var(--ink)}
-  p.lead{color:var(--muted);max-width:760px}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:12px}
-  .card{background:#fff;border-radius:12px;padding:12px;border:1px solid #eee;box-shadow:0 6px 20px rgba(3,3,3,0.03);transition:transform .16s}
-  .card:hover{transform:translateY(-8px)}
-
-  /* Team */
-  .team{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:12px}
-  .leader{min-width:170px;padding:12px;border-radius:10px;border:1px dashed #e9e9e9;background:linear-gradient(#fff,#fafafa);text-align:center;font-weight:700}
-  .members{display:flex;flex-direction:column;gap:8px}
-  .member{padding:8px 10px;border-radius:8px;border:1px solid #f0f0f0;background:linear-gradient(#fff,#fff);font-weight:600}
-
-  /* footer */
-  footer{margin-top:26px;padding-top:16px;border-top:1px solid #f1f1f1;color:var(--muted);text-align:center}
-
-  /* SAKURA PETALS */
-  .petal {
-    position:fixed;left:0;top:-10vh;width:28px;height:28px;pointer-events:none;z-index:60;
-    transform-origin:center;
-    opacity:0.95;
-    will-change:transform,opacity;
-  }
-  .petal svg{width:100%;height:100%}
-  /* animation assigned inline using JS for variety */
-
-  /* INTRO overlay */
-  .intro{
-    position:fixed;inset:0;background:linear-gradient(180deg,rgba(255,255,255,1),rgba(250,250,250,0.98));z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;padding:30px;
-    transition:opacity 1s ease, transform 0.8s ease;backdrop-filter:blur(2px);
-  }
-  .intro.hidden{opacity:0;pointer-events:none;transform:translateY(-8px)}
-  .intro h1{font-family:"Press Start 2P",monospace;font-size:36px;margin:0;letter-spacing:3px}
-  .intro p{margin:0;color:var(--muted);font-weight:600}
-  .pawn {
-    width:86px;height:86px;border-radius:12px;display:flex;align-items:center;justify-content:center;padding:12px;background:linear-gradient(#fff,#f6f6f6);box-shadow:0 10px 30px rgba(0,0,0,0.06);
-    transform:translateY(0);animation: bob 3.6s ease-in-out infinite;
-  }
-  @keyframes bob{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
-
-  /* reveal on load */
-  .reveal{opacity:0;transform:translateY(10px);transition:opacity .9s ease,transform .9s ease}
-  .reveal.visible{opacity:1;transform:none}
-
-  /* responsive */
-  @media (max-width:720px){
-    .page-wrap{margin:12px;padding:16px;border-radius:12px}
-    .intro h1{font-size:24px}
-    .pawn{width:64px;height:64px}
-  }
-</style>
+    /* ---------- responsive ---------- */
+    @media (max-width:720px){
+      .page-wrap{margin:12px;padding:16px;border-radius:12px}
+      .ring-container{width:140px;height:140px}
+      .intro-text h1{font-size:20px}
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Clouds (multiple layers) -->
-  <div class="page-wrap" id="pageWrap">
-    <div class="cloud" aria-hidden></div>
-    <div class="cloud cloud-2" aria-hidden></div>
-    <div class="cloud cloud-3" aria-hidden></div>
+  <!-- INTRO OVERLAY -->
+  <div id="introScreen" class="intro-screen" aria-hidden="false">
+    <div class="ring-container" aria-hidden="true">
+      <!-- Inline ring SVG (enchanted yellow ring) -->
+      <svg class="ring-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <!-- glow beneath (duplicated path softened) -->
+        <defs>
+          <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <radialGradient id="g1" cx="50%" cy="40%">
+            <stop offset="0%" stop-color="#fff9e6" />
+            <stop offset="35%" stop-color="#ffe89a" />
+            <stop offset="100%" stop-color="#ffd84d" />
+          </radialGradient>
+        </defs>
+
+        <!-- soft outer glow -->
+        <circle cx="100" cy="100" r="62" fill="#fff3d6" opacity="0.35" filter="url(#soft)"/>
+        <!-- ring body -->
+        <path d="M100,40
+                 a60,60 0 1,0 0,120
+                 a60,60 0 1,0 0,-120"
+              fill="none" stroke="url(#g1)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- inner carved decoration -->
+        <path d="M100 70 a8 8 0 0 0 -16 0 a8 8 0 0 0 16 0 z" fill="#fff6d9" opacity="0.5" transform="translate(-22,0)"/>
+        <path d="M100 70 a8 8 0 0 0 -16 0 a8 8 0 0 0 16 0 z" fill="#fff6d9" opacity="0.5" transform="translate(22,0)"/>
+      </svg>
+      <!-- subtle outer glow element -->
+      <svg class="ring-glow" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden style="position:absolute;left:0;top:0;pointer-events:none">
+        <circle cx="100" cy="100" r="74" fill="#ffd84d" opacity="0.06"/>
+      </svg>
+    </div>
+
+    <div class="intro-text" aria-hidden="true">
+      <h1>CLAUDE 9</h1>
+      <p>Welcome.</p>
+    </div>
+
+    <button id="enterBtn" class="enter-btn" aria-label="Enter site">Enter</button>
+
+    <div class="intro-fog" aria-hidden="true">
+      <div class="f"></div>
+      <div class="f g" style="top:40px"></div>
+    </div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-wrap" id="pageWrap" role="main" aria-live="polite">
+    <!-- clouds as gentle background -->
+    <div class="cloud" style="top:20px"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
 
     <header>
       <div class="title">
         <div class="pixel-title">CLAUDE 9 HIGHLIGHTS</div>
         <h1>CLAUDE 9</h1>
-        <div class="subtitle">White × Black · Minimal East-Asian pixel vibe — Leader: <strong>Miyoq</strong></div>
+        <div class="subtitle">they fr ask me to create this not my problem.</div>
       </div>
 
       <div class="controls">
-        <a id="discordBtn" class="discord-btn" href="https://discord.gg/REPLACE_WITH_YOUR_INVITE" target="_blank" rel="noopener noreferrer">
-          <span class="dot" aria-hidden></span> JOIN DISCORD
+        <a id="discordLink" class="discord-btn" href="https://discord.gg/REPLACE_WITH_YOUR_INVITE" target="_blank" rel="noopener noreferrer">
+          <span class="discord-dot" aria-hidden></span> Claude9
         </a>
       </div>
     </header>
 
-    <!-- ABOUT -->
     <section class="section reveal">
       <div class="pixel-title">ABOUT</div>
       <h2>White • Black • Calm • Pixel</h2>
-      <p class="lead">An aesthetic site inspired by East-Asian minimalism and retro pixel texture. Clouds drift gently, sakura petals fall, and a faint pixel grid gives the page a game-like yet elegant tone.</p>
+      <p class="lead">Making a website not that bad tho, just needs more a lot of practices and you can achieve this thing, like sun tzu said "-labubu" .</p>
     </section>
 
-    <!-- FEATURES -->
     <section class="section reveal">
       <div class="pixel-title">FEATURES</div>
       <div class="cards">
-        <div class="card"><h3>Soft Fog (Clouds)</h3><p>Multiple slow moving cloud layers create a calm fog effect.</p></div>
-        <div class="card"><h3>Sakura Petals</h3><p>Slow falling petals with subtle rotation and drift.</p></div>
-        <div class="card"><h3>Pixel Frame</h3><p>White border, subtle pixel overlay and retro headings.</p></div>
-        <div class="card"><h3>Intro</h3><p>Large pixel intro with a chess pawn accent — fades into the page.</p></div>
+        <div class="card"><h3>Soft Fog</h3><p>Slow-moving cloud layers for atmosphere.</p></div>
+        <div class="card"><h3>Sakura Petals</h3><p>Gentle falling petals add motion and calm.</p></div>
+        <div class="card"><h3>Enchanted Ring</h3><p>Golden rotating ring in the intro for focus.</p></div>
+        <div class="card"><h3>Shop Showcase</h3><p>List of items you can show for fun during demo.</p></div>
       </div>
     </section>
 
-    <!-- TEAM -->
     <section class="section reveal">
       <div class="pixel-title">TEAM</div>
-      <h2>Group 9 — Members</h2>
-
+      <h2>Group 9 Members</h2>
       <div class="team">
-        <div class="leader">Leader — Miyoq</div>
-        <div class="members" aria-live="polite">
+     
+        <div class="members">
           <div class="member">Kaameya Pidazo</div>
           <div class="member">Montero Jeremiah</div>
           <div class="member">Julien Caleb</div>
@@ -171,117 +254,132 @@
       </div>
     </section>
 
-    <!-- HIGHLIGHT / LINKS -->
-    <section class="section reveal">
-      <div class="pixel-title">HIGHLIGHT</div>
-      <h2>Short Demo</h2>
-      <p class="lead">Use this page during your presentation. Click the Discord button to share your server. Replace the invite link in the code with your real invite.</p>
-      <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
-        <a class="discord-btn" href="#team" onclick="document.querySelector('.team').scrollIntoView({behavior:'smooth'})">View Team</a>
-        <a class="discord-btn" href="#about" onclick="document.querySelector('.section').scrollIntoView({behavior:'smooth'})">About</a>
+    <section class="section reveal shop" id="shop">
+      <div class="pixel-title">SHOWCASE</div>
+      <h2>Featured Items</h2>
+      <div class="shop-grid" id="shopGrid">
+        <!-- JS will populate 30 items -->
       </div>
     </section>
 
-    <footer class="reveal">© 2025 CLAUDE 9 · 白黒 minimal pixel</footer>
+    <footer class="reveal">© 2025 CLAUDE 9 · i ran out of idea...</footer>
   </div>
 
-  <!-- Sakura petals container (JS will create petals) -->
-  <div id="petalLayer" aria-hidden></div>
+  <!-- container for petals -->
+  <div id="petalLayer" aria-hidden="true"></div>
 
-  <!-- Intro overlay -->
-  <div id="intro" class="intro" role="dialog" aria-label="Intro">
-    <h1>CLAUDE 9</h1>
-    <p>CLAUDE 9 HIGHLIGHTS</p>
-    <div class="pawn" aria-hidden>
-      <!-- simple chess pawn SVG -->
-      <svg viewBox="0 0 64 64" width="72" height="72" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-        <g fill="#111">
-          <circle cx="32" cy="16" r="8" fill="#111"/>
-          <path d="M22 38c0-6.6 5.4-12 12-12s12 5.4 12 12c0 1.9-.5 3.7-1.4 5.2-1.4 2.3-4.1 3.8-6.9 3.8h-8.2c-2.8 0-5.5-1.5-6.9-3.8C22.5 41.7 22 39.9 22 38z" fill="#111"/>
-          <rect x="16" y="46" width="32" height="6" rx="3" fill="#111"/>
-        </g>
-      </svg>
-    </div>
-    <button id="skipIntro" class="discord-btn" style="margin-top:6px;padding:8px 12px">Enter</button>
-  </div>
+  <script>
+    // ---------- Intro control (iPhone swipe-like: quick fade-out up) ----------
+    (function(){
+      const intro = document.getElementById('introScreen');
+      const enter = document.getElementById('enterBtn');
+      function hideIntro(){
+        intro.classList.add('intro-hidden');
+        setTimeout(()=> {
+          intro.style.display = 'none';
+          // reveal content (add visible class via intersection observer below)
+          document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+        }, 820);
+      }
+      enter.addEventListener('click', hideIntro);
+      // auto hide after 3600ms for dramatic intro
+      setTimeout(hideIntro, 3600);
+    })();
 
-<script>
-  // reveal on scroll
-  document.addEventListener('DOMContentLoaded', ()=> {
-    const reveals = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver((entries)=> {
-      entries.forEach(e=>{
-        if(e.isIntersecting) e.target.classList.add('visible');
+    // ---------- Sakura petals generator ----------
+    (function(){
+      const layer = document.getElementById('petalLayer');
+      const PETAL_COUNT = 14; // tablet-friendly
+      function createPetal(){
+        const el = document.createElement('div');
+        el.className = 'petal';
+        // random start position across viewport width
+        const left = Math.random() * 100;
+        el.style.left = left + 'vw';
+        el.style.top = (-5 - Math.random()*12) + 'vh';
+        // random size
+        const size = 18 + Math.random()*18;
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        // svg petal
+        el.innerHTML = '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 2c4 3 8 6 8 11 0 7-8 13-8 17 0-4-8-10-8-17 0-5 4-8 8-11z" fill="#ffd6e1" stroke="#f6b1c6" stroke-width="0.5"/></svg>';
+        layer.appendChild(el);
+
+        // animate using Web Animations API
+        const duration = 9000 + Math.random()*9000;
+        const endY = window.innerHeight * (0.7 + Math.random()*0.6);
+        el.animate([
+          { transform: `translateY(0px) rotate(${Math.random()*360}deg)`, opacity: 1 },
+          { transform: `translateY(${endY}px) rotate(${Math.random()*1080}deg)`, opacity: 0.9 }
+        ], { duration: duration, easing: 'cubic-bezier(.2,.7,.2,1)', delay: Math.random()*2000, iterations: Infinity });
+      }
+      for(let i=0;i<PETAL_COUNT;i++) createPetal();
+    })();
+
+    // ---------- Populate shop items (30 items) ----------
+    (function(){
+      const items = [
+        ['Labubu', '100M'],
+        ['Bubula', '10M'],
+        ['Oi Oi Oi Inximnya', '10M'],
+        ['Crystal Cloud Plush', '8M'],
+        ['Peach Oni Figurine', '6M'],
+        ['Noodle Dragon Mini', '12M'],
+        ['Midnight Koi Lantern', '9M'],
+        ['Sakura Globe Model', '7M'],
+        ['Lucky Fox Bell', '5M'],
+        ['Smiling Radish Toy', '3M'],
+        ['Gold Bunny Statue', '11M'],
+        ['Tiny Cloud Buddy', '4.5M'],
+        ['Dancing Bamboo Sprite', '6.4M'],
+        ['Moonlight Teapot', '8M'],
+        ['Small Dragon Jar', '10M'],
+        ['Mini Panda Orb', '7.2M'],
+        ['Cloudy Tea Cup', '2M'],
+        ['Wind Spirit Charm', '9.9M'],
+        ['Tiny Lantern Buddy', '3M'],
+        ['Thunder Egg', '1.2M'],
+        ['Feather Jar', '3.3M'],
+        ['Star Bowl', '2.5M'],
+        ['Lucky Seed', '0.5M'],
+        ['Night Blossom Box', '8M'],
+        ['Little Wind Fan', '1M'],
+        ['Splash Gem', '6M'],
+        ['Fluffy Cloud Lamp', '6.6M'],
+        ['Spirit Bell Tower', '14M'],
+        ['Choco Oni Ball', '2.2M'],
+        ['Silver Lotus Patch', '1.1M']
+      ];
+
+      const grid = document.getElementById('shopGrid');
+      items.forEach(([name, price])=>{
+        const div = document.createElement('div');
+        div.className = 'shop-item';
+        div.innerHTML = `<span>${name}</span><span style="color:var(--muted);font-weight:800">${price}</span>`;
+        grid.appendChild(div);
       });
-    }, {threshold:0.12});
-    reveals.forEach(r => obs.observe(r));
-  });
+    })();
 
-  // Intro logic: auto-hide after a slow cool delay or via button
-  (function(){
-    const intro = document.getElementById('intro');
-    const skip = document.getElementById('skipIntro');
-    let hidden=false;
-    function hideIntro(){
-      if(hidden) return; hidden=true;
-      intro.classList.add('hidden');
-      // after hide, remove from DOM to allow pointer events on page
-      setTimeout(()=> intro.remove(), 1200);
-    }
-    skip.addEventListener('click', hideIntro);
-    // auto hide after 3.6s for dramatic slow intro
-    setTimeout(hideIntro, 3600);
-  })();
+    // ---------- make sure reveal elements show after intro if auto-hide happened early ----------
+    (function(){
+      const reveals = document.querySelectorAll('.reveal');
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e=>{
+          if(e.isIntersecting) e.target.classList.add('visible');
+        });
+      }, {threshold: 0.12});
+      reveals.forEach(r => obs.observe(r));
+      // if intro is hidden earlier than scroll, reveal current on load:
+      setTimeout(()=> reveals.forEach(r => r.classList.add('visible')), 1400);
+    })();
 
-  // Sakura petals generator
-  (function(){
-    const petalLayer = document.getElementById('petalLayer');
-    const PETAL_COUNT = 12; // increase for more petals, keep performance in mind
-    function createPetal(i){
-      const el = document.createElement('div');
-      el.className = 'petal';
-      // random start horizontal position
-      const left = Math.random()*100;
-      el.style.left = left + 'vw';
-      el.style.top = (-5 - Math.random()*12) + 'vh';
-      const delay = Math.random()*4;
-      const duration = 8 + Math.random()*10;
-      // svg petal (pink)
-      el.innerHTML = `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden><path d="M16 2c4 3 8 6 8 11 0 7-8 13-8 17 0-4-8-10-8-17 0-5 4-8 8-11z" fill="#ffd6e1" stroke="#f6b1c6" stroke-width="0.6" /></svg>`;
-      petalLayer.appendChild(el);
-      // animate with CSS via JS
-      el.animate([
-        { transform: `translateY(0px) rotate(${Math.random()*360}deg)`, opacity:1 },
-        { transform: `translateY(${window.innerHeight * (0.7 + Math.random()*0.6)}px) rotate(${Math.random()*720}deg)`, opacity:0.9 }
-      ], { duration: (duration*1000), easing: 'cubic-bezier(.2,.7,.2,1)', delay: delay*1000, iterations: Infinity });
-    }
-    for(let i=0;i<PETAL_COUNT;i++) createPetal(i);
-  })();
-
-  // subtle parallax for clouds based on time (slow drift handled in CSS)
-  // optional: small dynamic jitter
-  (function(){
-    const clouds = document.querySelectorAll('.cloud');
-    clouds.forEach((c,i)=>{
-      // stagger start positions
-      c.style.transform = `translateX(${(i*5)}%)`;
-    });
-  })();
-
-  // make Discord button pulse once to draw attention
-  (function(){
-    const btn = document.getElementById('discordBtn');
-    setTimeout(()=>{ btn.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:1600,iterations:3}); }, 1800);
-  })();
-
-  // ensure background pixel overlay isn't too heavy on small devices
-  (function(){
-    if(window.innerWidth < 420){
-      const after = document.querySelector('.page-wrap::after');
-      // no direct access to pseudo-element; instead reduce overall opacity
-      document.querySelector('.page-wrap').style.setProperty('--pixel-opacity', '0.3');
-    }
-  })();
-</script>
+    // ---------- small niceties: focus/enter via keyboard ----------
+    (function(){
+      const enter = document.getElementById('enterBtn');
+      enter.addEventListener('keyup', (e)=>{
+        if(e.key === 'Enter') enter.click();
+      });
+    })();
+  </script>
 </body>
 </html>
