@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Group 9 — Project (Leader: Miyoq)</title>
+  <meta name="description" content="Group 9 - Grade 10 project site. Leader: Miyoq" />
+  <!-- Tailwind CDN for quick styling (works offline-ish if cached) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    html,body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    body{background:linear-gradient(180deg,#041028,#071426);color:#e6eef8;min-height:100vh;}
+    .glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.05)}
+    .accent{background:linear-gradient(90deg,#7c3aed,#06b6d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .tilt{transition:transform .25s ease}
+    .tilt:hover{transform:translateY(-6px) scale(1.02)}
+    .card-back{display:none}
+    .card.flipped .card-front{display:none}
+    .card.flipped .card-back{display:block}
+    /* small mobile-friendly tweaks */
+    @media (prefers-reduced-motion: no-preference){.pulse{animation:pulse 3s infinite}}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+  </style>
+</head>
+<body class="antialiased">
+
+  <header class="w-full sticky top-0 z-40 glass/60 backdrop-blur px-4 py-3">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-white/8 font-extrabold">G9</div>
+        <div>
+          <div class="text-sm font-semibold">Group 9 — Grade 10</div>
+          <div class="text-xs text-slate-200/70">Leader: <span id="leaderName">Miyoq</span></div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="themeBtn" class="px-3 py-1 rounded-md glass text-sm">🌗 Theme</button>
+        <a id="downloadHTML" class="px-3 py-1 rounded-md bg-white text-black text-sm font-semibold" href="#" download="index.html">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-10">
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">
+          Group 9 — <span class="accent">Super Cool Project</span>
+        </h1>
+        <p class="mt-4 text-slate-200/85">Fast, clean, and ready for GitHub Pages. Use this site to present your project, roles, and demo to your teacher. You’re the leader — own it.</p>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#project" class="px-4 py-2 rounded-md bg-white text-black font-semibold">View Project</a>
+          <button id="copyReadme" class="px-4 py-2 rounded-md glass">Copy README</button>
+        </div>
+
+        <div class="mt-4 text-xs text-slate-300/70">
+          Tips: edit the Project cards to reflect what your group actually did. Replace images if needed.
+        </div>
+      </div>
+
+      <div class="w-full">
+        <div class="glass p-4 rounded-xl tilt pulse">
+          <div class="h-44 rounded-lg overflow-hidden bg-gradient-to-br from-slate-800 to-slate-700 flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-lg font-semibold">Project Preview</div>
+              <div class="text-sm opacity-80 mt-1">Works on tablets. Upload to GitHub and enable Pages.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="project" class="mt-10">
+      <h2 class="text-2xl font-bold">Project — Quick Features</h2>
+      <p class="mt-2 text-sm text-slate-200/75">Edit the cards below with your group's specific contributions and demo steps.</p>
+
+      <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="card glass p-4 rounded-xl tilt cursor-pointer" onclick="this.classList.toggle('flipped')">
+          <div class="card-front">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-bold">Interactive Demo</h3>
+                <p class="text-xs mt-1 text-slate-200/70">Front-end prototype</p>
+              </div>
+              <div class="text-2xl">💻</div>
+            </div>
+            <p class="mt-3 text-sm text-slate-200/80">Responsive UI, animations, and a theme toggle. Perfect to show during your presentation.</p>
+          </div>
+          <div class="card-back mt-3 text-sm">
+            <strong>How to demo:</strong>
+            <ol class="list-decimal ml-5 mt-2 text-xs">
+              <li>Open the site link from GitHub Pages.</li>
+              <li>Click each card to flip and explain your role.</li>
+              <li>Mention what each team member did.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="card glass p-4 rounded-xl tilt cursor-pointer" onclick="this.classList.toggle('flipped')">
+          <div class="card-front">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-bold">Research Summary</h3>
+                <p class="text-xs mt-1 text-slate-200/70">1-page conclusion</p>
+              </div>
+              <div class="text-2xl">📚</div>
+            </div>
+            <p class="mt-3 text-sm text-slate-200/80">Attach a short summary and a 5-slide deck for your teacher (optional upload).</p>
+          </div>
+          <div class="card-back mt-3 text-sm">
+            <strong>Report points:</strong>
+            <ul class="list-disc ml-5 mt-2 text-xs">
+              <li>Problem statement</li>
+              <li>Solution & features</li>
+              <li>Tools used & roles</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card glass p-4 rounded-xl tilt cursor-pointer" onclick="this.classList.toggle('flipped')">
+          <div class="card-front">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-bold">Team</h3>
+                <p class="text-xs mt-1 text-slate-200/70">Group 9</p>
+              </div>
+              <div class="text-2xl">🧑‍🤝‍🧑</div>
+            </div>
+            <p class="mt-3 text-sm text-slate-200/80">Leader: Miyoq. Add three more members below or in README.</p>
+          </div>
+          <div class="card-back mt-3 text-sm">
+            <strong>Team roles (example):</strong>
+            <ul class="list-disc ml-5 mt-2 text-xs">
+              <li>Leader / Presentation — Miyoq</li>
+              <li>Developer — Member A</li>
+              <li>Designer / Tester — Member B</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact / Footer -->
+    <footer id="contact" class="mt-12 pb-10">
+      <div class="glass p-4 rounded-xl">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+          <div>
+            <div class="font-bold">Need to hand in fast?</div>
+            <div class="text-sm text-slate-200/70 mt-1">Upload this file to your repo root on GitHub and enable Pages from branch <code>main</code>.</div>
+          </div>
+          <div class="flex gap-3">
+            <button id="showDeploy" class="px-3 py-2 rounded-md bg-white text-black text-sm font-semibold">Deploy Steps</button>
+            <button id="openGitHub" class="px-3 py-2 rounded-md glass text-sm" onclick="window.open('https://github.com/new','_blank')">Create Repo</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 text-xs text-slate-300/60">Generated for Group 9 — Leader: Miyoq • Grade 10</div>
+    </footer>
+  </main>
+
+  <script>
+    // Theme toggle (simple)
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.onclick = () => {
+      document.documentElement.classList.toggle('light');
+      if(document.documentElement.classList.contains('light')){
+        document.body.style.background = 'linear-gradient(180deg,#f8fafc,#e6eef8)';
+        document.body.style.color = '#0b1220';
+      } else {
+        document.body.style.background = 'linear-gradient(180deg,#041028,#071426)';
+        document.body.style.color = '#e6eef8';
+      }
+    };
+
+    // Download the current HTML (useful if you edited on tablet)
+    document.getElementById('downloadHTML').addEventListener('click', function(e){
+      const html = '<!doctype html>\\n' + document.documentElement.outerHTML;
+      const blob = new Blob([html], {type: 'text/html'});
+      const href = URL.createObjectURL(blob);
+      this.href = href;
+      setTimeout(()=> URL.revokeObjectURL(href), 2000);
+    });
+
+    // Copy README template
+    document.getElementById('copyReadme').addEventListener('click', async () => {
+      const readme = `# Group 9 Project\\n\\n**Title:** Super Cool Project\\n\\n**Grade:** 10\\n**Leader:** Miyoq\\n\\n## Team\\n- Miyoq (Leader / Presentation)\\n- Member A (Dev)\\n- Member B (Designer / Tester)\\n\\n## Summary\\nShort 1-paragraph summary of problem and solution...\\n\\n## How to view\\nOpen: index.html or visit GitHub Pages link after deploy.\\n`;
+      try {
+        await navigator.clipboard.writeText(readme);
+        alert('README template copied to clipboard — paste into a new README.md file in your repo.');
+      } catch(e){
+        prompt('Copy the README content manually:', readme);
+      }
+    });
+
+    // Deploy steps quick modal (simple)
+    document.getElementById('showDeploy').addEventListener('click', () => {
+      alert(
+        "Quick GitHub Pages deploy steps (use on your tablet):\\n\\n1) Create new repository on github.com → name it (e.g. group9-project).\\n2) Upload this index.html to repo root (Add file → Upload files).\\n3) Go to Settings → Pages → Select branch: main, folder: / → Save.\\n4) Wait a few seconds then open the provided site URL like https://yourusername.github.io/group9-project"
+      );
+    });
+
+    // Make leaderName editable quickly (for tablet)
+    document.getElementById('leaderName').addEventListener('click', () => {
+      const newName = prompt('Enter leader name:', document.getElementById('leaderName').innerText || 'Miyoq');
+      if(newName) document.getElementById('leaderName').innerText = newName;
+    });
+  </script>
+</body>
+</html>
