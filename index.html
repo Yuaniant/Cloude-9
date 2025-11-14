@@ -1,213 +1,260 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Group 9 — Project (Leader: Miyoq)</title>
-  <meta name="description" content="Group 9 - Grade 10 project site. Leader: Miyoq" />
-  <!-- Tailwind CDN for quick styling (works offline-ish if cached) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    html,body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-    body{background:linear-gradient(180deg,#041028,#071426);color:#e6eef8;min-height:100vh;}
-    .glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.05)}
-    .accent{background:linear-gradient(90deg,#7c3aed,#06b6d4);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .tilt{transition:transform .25s ease}
-    .tilt:hover{transform:translateY(-6px) scale(1.02)}
-    .card-back{display:none}
-    .card.flipped .card-front{display:none}
-    .card.flipped .card-back{display:block}
-    /* small mobile-friendly tweaks */
-    @media (prefers-reduced-motion: no-preference){.pulse{animation:pulse 3s infinite}}
-    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CLAUDE 9 HIGHLIGHTS</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- Base / Colors ---------- */
+  :root{
+    --bg: #ffffff;
+    --ink: #0b0b0b;
+    --muted: #6b6b6b;
+    --accent: #111111;
+    --glass: rgba(255,255,255,0.6);
+    --white-border: rgba(255,255,255,1);
+  }
+  html,body{height:100%;margin:0;font-family:"Noto Sans JP",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+  body{
+    background: linear-gradient(180deg,#ffffff 0%, #f6f6f6 100%);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-y:auto;
+  }
+
+  /* ---------- Page Frame / White Border ---------- */
+  .page-wrap{
+    max-width:980px;
+    margin:28px auto;
+    padding:28px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(250,250,250,0.88));
+    border-radius:18px;
+    border:6px solid var(--white-border); /* IMPORTANT WHITE BORDER */
+    box-shadow: 0 10px 40px rgba(8,8,8,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* subtle pixel overlay (game-ish texture) */
+  .page-wrap::after{
+    content:"";
+    position:absolute;inset:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.015) 1px, transparent 1px);
+    background-size:8px 8px, 8px 8px; /* pixel grid size — change for more/less pixelation */
+    mix-blend-mode:overlay;
+    opacity:0.7;
+  }
+
+  header{
+    display:flex;align-items:center;gap:18px;justify-content:space-between;flex-wrap:wrap;
+    padding-bottom:18px;border-bottom:1px solid #eee;
+  }
+  .title{
+    display:flex;flex-direction:column;
+    gap:6px;
+  }
+  h1{
+    margin:0;font-family:"Press Start 2P", monospace; /* pixelated retro heading font */
+    font-size:20px;color:var(--ink);letter-spacing:2px;
+    transform:translateZ(0);
+    /* pixel-like text shadow for punch */
+    text-shadow:
+      0 1px 0 rgba(0,0,0,0.06),
+      1px 1px 0 rgba(0,0,0,0.03);
+  }
+  .subtitle{margin:0;font-size:13px;color:var(--muted);font-weight:500;}
+
+  /* ---------- Top Controls (Discord + theme-ish) ---------- */
+  .controls{display:flex;gap:12px;align-items:center}
+  .discord-btn{
+    display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;
+    background:transparent;border:1px solid #111;font-weight:700;text-decoration:none;color:var(--ink);
+    transition:transform .18s ease, box-shadow .18s ease, background .18s;
+    box-shadow: 0 4px 14px rgba(17,17,17,0.06);
+  }
+  .discord-btn .badge{display:inline-block;width:10px;height:10px;border-radius:2px;background:#5865F2;box-shadow:0 2px 6px rgba(88,101,242,0.22)}
+  .discord-btn:hover{transform:translateY(-4px);background:#111;color:white}
+  /* soft fade/pulse */
+  .discord-btn.fade{
+    animation:fadeIn .9s ease both, pulse 2.4s ease-in-out 2s infinite;
+  }
+
+  @keyframes fadeIn{ from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+  @keyframes pulse{ 0%{box-shadow:0 6px 20px rgba(88,101,242,.06)} 50%{box-shadow:0 10px 28px rgba(88,101,242,.12)} 100%{box-shadow:0 6px 20px rgba(88,101,242,.06)} }
+
+  /* ---------- Sections & Cards ---------- */
+  .section{
+    margin-top:26px;padding:18px;border-radius:12px;background:transparent;
+    display:block;
+  }
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:14px}
+  .card{
+    background:white;border-radius:12px;padding:14px;border:1px solid #eee;box-shadow:0 6px 20px rgba(3,3,3,0.03);
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(3,3,3,0.06)}
+
+  .card h3{margin:0;font-size:14px;font-weight:700;letter-spacing:1px}
+  .card p{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+
+  /* ---------- Team list (stylish) ---------- */
+  .team{
+    margin-top:14px;padding:14px;border-radius:12px;background:#fff;border:1px solid #eee;
+    display:flex;gap:18px;flex-wrap:wrap;align-items:center;
+  }
+  .team .leader{
+    min-width:170px;padding:12px;border-radius:10px;border:1px dashed #e6e6e6;background:linear-gradient(180deg,#fff,#fbfbfb);
+    text-align:center;font-weight:700;
+  }
+  .team ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .team li{padding:6px 10px;border-radius:8px;background:linear-gradient(180deg,#fff,#fff);border:1px solid #f0f0f0;font-weight:600}
+
+  /* ---------- Pixel accent for titles ---------- */
+  .pixel-title{
+    font-family:"Press Start 2P", monospace;
+    font-size:12px;
+    letter-spacing:2px;
+    color:var(--ink);
+    margin:0 0 6px 0;
+    display:inline-block;
+    padding:6px 10px;border-radius:8px;border:2px solid #111;background:linear-gradient(180deg,#fff,#f8f8f8);
+    box-shadow: 0 6px 20px rgba(3,3,3,0.04);
+  }
+
+  /* ---------- Fade-in on scroll (hidden -> visible) ---------- */
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.visible{opacity:1;transform:none}
+
+  /* ---------- Footer ---------- */
+  footer{margin-top:26px;padding:18px;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid #f0f0f0}
+
+  /* ---------- Responsive tweaks ---------- */
+  @media (max-width:720px){
+    .page-wrap{margin:14px;padding:16px;border-radius:12px}
+    h1{font-size:16px}
+    .team{flex-direction:column;align-items:flex-start}
+  }
+</style>
 </head>
-<body class="antialiased">
+<body>
 
-  <header class="w-full sticky top-0 z-40 glass/60 backdrop-blur px-4 py-3">
-    <div class="max-w-5xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-white/8 font-extrabold">G9</div>
-        <div>
-          <div class="text-sm font-semibold">Group 9 — Grade 10</div>
-          <div class="text-xs text-slate-200/70">Leader: <span id="leaderName">Miyoq</span></div>
-        </div>
+  <div class="page-wrap">
+    <header>
+      <div class="title">
+        <div class="pixel-title">CLAUDE 9 HIGHLIGHTS</div>
+        <h1>CLAUDE 9</h1>
+        <div class="subtitle">A minimalist East-Asian white × black aesthetic—organized by Leader: <strong>Miyoq</strong></div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <button id="themeBtn" class="px-3 py-1 rounded-md glass text-sm">🌗 Theme</button>
-        <a id="downloadHTML" class="px-3 py-1 rounded-md bg-white text-black text-sm font-semibold" href="#" download="index.html">Download</a>
+      <div class="controls">
+        <!-- Replace the href with your real server invite like https://discord.gg/xxxxx -->
+        <a id="discordLink" class="discord-btn fade" href="https://discord.gg/REPLACE_WITH_YOUR_INVITE" target="_blank" rel="noopener noreferrer">
+          <span class="badge" aria-hidden></span>
+          JOIN DISCORD
+        </a>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main class="max-w-5xl mx-auto px-4 py-10">
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-      <div>
-        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">
-          Group 9 — <span class="accent">Super Cool Project</span>
-        </h1>
-        <p class="mt-4 text-slate-200/85">Fast, clean, and ready for GitHub Pages. Use this site to present your project, roles, and demo to your teacher. You’re the leader — own it.</p>
+    <!-- ABOUT -->
+    <section class="section reveal">
+      <div class="pixel-title">ABOUT</div>
+      <h2 style="margin-top:8px">White • Black • Calm</h2>
+      <p style="color:var(--muted);max-width:760px">
+        Clean lines, focused whitespace, subtle pixel texture — an aesthetic that nods to East-Asian minimalism and retro gaming vibes without becoming a literal game.
+        This site is easy to edit and tablet-friendly. Use it to present your project and show off your team.
+      </p>
+    </section>
 
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#project" class="px-4 py-2 rounded-md bg-white text-black font-semibold">View Project</a>
-          <button id="copyReadme" class="px-4 py-2 rounded-md glass">Copy README</button>
+    <!-- FEATURES -->
+    <section class="section reveal">
+      <div class="pixel-title">FEATURES</div>
+      <div class="cards">
+        <div class="card">
+          <h3>Minimal 白黒 UI</h3>
+          <p>High contrast, readable, and intentionally minimal — white border gives it frame-like presence.</p>
         </div>
 
-        <div class="mt-4 text-xs text-slate-300/70">
-          Tips: edit the Project cards to reflect what your group actually did. Replace images if needed.
+        <div class="card">
+          <h3>Pixel Texture</h3>
+          <p>Delicate pixel-grid overlay for subtle retro feel — adjustable by changing CSS background-size on <code>.page-wrap::after</code>.</p>
         </div>
-      </div>
 
-      <div class="w-full">
-        <div class="glass p-4 rounded-xl tilt pulse">
-          <div class="h-44 rounded-lg overflow-hidden bg-gradient-to-br from-slate-800 to-slate-700 flex items-center justify-center">
-            <div class="text-center">
-              <div class="text-lg font-semibold">Project Preview</div>
-              <div class="text-sm opacity-80 mt-1">Works on tablets. Upload to GitHub and enable Pages.</div>
-            </div>
-          </div>
+        <div class="card">
+          <h3>Animated Reveal</h3>
+          <p>Sections fade in as you scroll — modern, elegant, and smooth for demos on tablet.</p>
+        </div>
+
+        <div class="card">
+          <h3>Discord Link</h3>
+          <p>Quick join button for your community. Replace the invite URL in the code with your server's invite.</p>
         </div>
       </div>
     </section>
 
-    <!-- Projects -->
-    <section id="project" class="mt-10">
-      <h2 class="text-2xl font-bold">Project — Quick Features</h2>
-      <p class="mt-2 text-sm text-slate-200/75">Edit the cards below with your group's specific contributions and demo steps.</p>
+    <!-- TEAM -->
+    <section class="section reveal">
+      <div class="pixel-title">TEAM</div>
+      <h2 style="margin-top:8px">Group 9 — Members</h2>
 
-      <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="card glass p-4 rounded-xl tilt cursor-pointer" onclick="this.classList.toggle('flipped')">
-          <div class="card-front">
-            <div class="flex justify-between items-start">
-              <div>
-                <h3 class="font-bold">Interactive Demo</h3>
-                <p class="text-xs mt-1 text-slate-200/70">Front-end prototype</p>
-              </div>
-              <div class="text-2xl">💻</div>
-            </div>
-            <p class="mt-3 text-sm text-slate-200/80">Responsive UI, animations, and a theme toggle. Perfect to show during your presentation.</p>
-          </div>
-          <div class="card-back mt-3 text-sm">
-            <strong>How to demo:</strong>
-            <ol class="list-decimal ml-5 mt-2 text-xs">
-              <li>Open the site link from GitHub Pages.</li>
-              <li>Click each card to flip and explain your role.</li>
-              <li>Mention what each team member did.</li>
-            </ol>
-          </div>
+      <div class="team" role="list">
+        <div class="leader">Leader — Miyoq</div>
+        <ul>
+          <li>Kaameya Pidazo</li>
+          <li>Montero Jeremiah</li>
+          <li>Julien Caleb</li>
+          <li>Ella Rosario</li>
+          <li>Elweiszsa Caleigh</li>
+          <li>Kirzten Chelsea</li>
+          <li>Sasha Faith</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- OPTIONAL: Mini interactive area (non-game) -->
+    <section class="section reveal">
+      <div class="pixel-title">HIGHLIGHT</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <div style="flex:1;min-width:220px">
+          <h3 style="margin:0 0 6px 0">Quick Note</h3>
+          <p style="color:var(--muted)">This site is ready to present: talk through the features, show the team, and click the Discord button to bring the judge/audience to your community.</p>
         </div>
 
-        <div class="card glass p-4 rounded-xl tilt cursor-pointer" onclick="this.classList.toggle('flipped')">
-          <div class="card-front">
-            <div class="flex justify-between items-start">
-              <div>
-                <h3 class="font-bold">Research Summary</h3>
-                <p class="text-xs mt-1 text-slate-200/70">1-page conclusion</p>
-              </div>
-              <div class="text-2xl">📚</div>
-            </div>
-            <p class="mt-3 text-sm text-slate-200/80">Attach a short summary and a 5-slide deck for your teacher (optional upload).</p>
-          </div>
-          <div class="card-back mt-3 text-sm">
-            <strong>Report points:</strong>
-            <ul class="list-disc ml-5 mt-2 text-xs">
-              <li>Problem statement</li>
-              <li>Solution & features</li>
-              <li>Tools used & roles</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card glass p-4 rounded-xl tilt cursor-pointer" onclick="this.classList.toggle('flipped')">
-          <div class="card-front">
-            <div class="flex justify-between items-start">
-              <div>
-                <h3 class="font-bold">Team</h3>
-                <p class="text-xs mt-1 text-slate-200/70">Group 9</p>
-              </div>
-              <div class="text-2xl">🧑‍🤝‍🧑</div>
-            </div>
-            <p class="mt-3 text-sm text-slate-200/80">Leader: Miyoq. Add three more members below or in README.</p>
-          </div>
-          <div class="card-back mt-3 text-sm">
-            <strong>Team roles (example):</strong>
-            <ul class="list-disc ml-5 mt-2 text-xs">
-              <li>Leader / Presentation — Miyoq</li>
-              <li>Developer — Member A</li>
-              <li>Designer / Tester — Member B</li>
-            </ul>
-          </div>
+        <div style="min-width:170px">
+          <a class="btn" href="#team" onclick="document.getElementById('team').scrollIntoView({behavior:'smooth'})">View Team</a>
         </div>
       </div>
     </section>
 
-    <!-- Contact / Footer -->
-    <footer id="contact" class="mt-12 pb-10">
-      <div class="glass p-4 rounded-xl">
-        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-          <div>
-            <div class="font-bold">Need to hand in fast?</div>
-            <div class="text-sm text-slate-200/70 mt-1">Upload this file to your repo root on GitHub and enable Pages from branch <code>main</code>.</div>
-          </div>
-          <div class="flex gap-3">
-            <button id="showDeploy" class="px-3 py-2 rounded-md bg-white text-black text-sm font-semibold">Deploy Steps</button>
-            <button id="openGitHub" class="px-3 py-2 rounded-md glass text-sm" onclick="window.open('https://github.com/new','_blank')">Create Repo</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-4 text-xs text-slate-300/60">Generated for Group 9 — Leader: Miyoq • Grade 10</div>
+    <footer class="reveal">
+      © 2025 CLAUDE 9 · Designed with minimal 白黒 aesthetic
     </footer>
-  </main>
+  </div>
 
-  <script>
-    // Theme toggle (simple)
-    const themeBtn = document.getElementById('themeBtn');
-    themeBtn.onclick = () => {
-      document.documentElement.classList.toggle('light');
-      if(document.documentElement.classList.contains('light')){
-        document.body.style.background = 'linear-gradient(180deg,#f8fafc,#e6eef8)';
-        document.body.style.color = '#0b1220';
-      } else {
-        document.body.style.background = 'linear-gradient(180deg,#041028,#071426)';
-        document.body.style.color = '#e6eef8';
-      }
-    };
-
-    // Download the current HTML (useful if you edited on tablet)
-    document.getElementById('downloadHTML').addEventListener('click', function(e){
-      const html = '<!doctype html>\\n' + document.documentElement.outerHTML;
-      const blob = new Blob([html], {type: 'text/html'});
-      const href = URL.createObjectURL(blob);
-      this.href = href;
-      setTimeout(()=> URL.revokeObjectURL(href), 2000);
+<script>
+  // IntersectionObserver reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e=>{
+      if(e.isIntersecting) { e.target.classList.add('visible'); }
     });
+  }, {threshold: 0.12});
+  reveals.forEach(r => obs.observe(r));
 
-    // Copy README template
-    document.getElementById('copyReadme').addEventListener('click', async () => {
-      const readme = `# Group 9 Project\\n\\n**Title:** Super Cool Project\\n\\n**Grade:** 10\\n**Leader:** Miyoq\\n\\n## Team\\n- Miyoq (Leader / Presentation)\\n- Member A (Dev)\\n- Member B (Designer / Tester)\\n\\n## Summary\\nShort 1-paragraph summary of problem and solution...\\n\\n## How to view\\nOpen: index.html or visit GitHub Pages link after deploy.\\n`;
-      try {
-        await navigator.clipboard.writeText(readme);
-        alert('README template copied to clipboard — paste into a new README.md file in your repo.');
-      } catch(e){
-        prompt('Copy the README content manually:', readme);
-      }
-    });
+  // quick helper: replace discord invite easily (use this if you want to change via prompt)
+  // document.getElementById('discordLink').href = "https://discord.gg/YOUR_INVITE";
 
-    // Deploy steps quick modal (simple)
-    document.getElementById('showDeploy').addEventListener('click', () => {
-      alert(
-        "Quick GitHub Pages deploy steps (use on your tablet):\\n\\n1) Create new repository on github.com → name it (e.g. group9-project).\\n2) Upload this index.html to repo root (Add file → Upload files).\\n3) Go to Settings → Pages → Select branch: main, folder: / → Save.\\n4) Wait a few seconds then open the provided site URL like https://yourusername.github.io/group9-project"
-      );
-    });
-
-    // Make leaderName editable quickly (for tablet)
-    document.getElementById('leaderName').addEventListener('click', () => {
-      const newName = prompt('Enter leader name:', document.getElementById('leaderName').innerText || 'Miyoq');
-      if(newName) document.getElementById('leaderName').innerText = newName;
-    });
-  </script>
+  // make "View Team" anchor work if referenced
+  // (We used anchor in button but didn't set id earlier; ensure the section has id 'team' for the jump)
+  // Add id to team section dynamically for safety:
+  (function(){ const teamSec = document.querySelectorAll('.team'); if(teamSec[0]) teamSec[0].id = 'team'; })();
+</script>
 </body>
 </html>
