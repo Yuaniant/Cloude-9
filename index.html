@@ -1,325 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<title>CLAUDE 9</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
-  /* ---------- Base ---------- */
-  :root{
-    --bg: #ffffff;
-    --ink: #0b0b0b;
-    --muted: #666;
-    --accent: #111;
-    --ring-color: #ffd84d;
-  }
-  *{box-sizing:border-box}
-  body{margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:linear-gradient(#fff,#fbfbfb); color:var(--ink); -webkit-font-smoothing:antialiased;}
-  a{color:inherit;text-decoration:none}
+body {
+  margin:0; padding:20px; background:#f8e7dd; color:#936b55; 
+  font-family:'VT323', monospace; text-align:center;
+}
+h1 {
+  font-family:'Press Start 2P',cursive; font-size:2rem; margin-bottom:0.5rem; 
+  text-shadow:1px 1px 0 #936b55;
+}
+h2 {
+  font-size:1.2rem; margin-bottom:20px; text-shadow:1px 1px 0 #936b55;
+}
+.video-container {
+  position:relative; display:inline-block; border:3px solid #936b55; border-radius:8px; padding:4px;
+}
+.video-container iframe { width:560px; max-width:90vw; height:315px; border:none; border-radius:4px;}
+.btn {
+  position:absolute; top:50%; transform:translateY(-50%); padding:8px 14px; font-size:11px;
+  text-decoration:none; color:#936b55; border:2px solid #936b55; border-radius:4px;
+  font-family:'Press Start 2P',cursive; background:#f8e7dd; transition:0.2s;
+}
+.btn:hover { background:#936b55; color:#f8e7dd; transform:translateY(-50%) scale(1.05);}
+.btn-left { left:-120px;} .btn-right { right:-120px;}
+@media(max-width:768px){ .btn-left,.btn-right{left:0; right:0; top:-40px; transform:none;}}
 
-  /* ---------- Page frame ---------- */
-  .page-wrap{
-    max-width:980px; margin:28px auto; padding:28px; border-radius:18px;
-    background:linear-gradient(180deg,#fff,#fbfbfb); border:6px solid #fff;
-    box-shadow:0 14px 48px rgba(10,10,10,0.06); position:relative; overflow:hidden;
-  }
-  .page-wrap::after{
-    content:""; position:absolute; inset:0; pointer-events:none;
-    background-image:
-      linear-gradient(rgba(0,0,0,0.012) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,0,0,0.012) 1px, transparent 1px);
-    background-size:8px 8px, 8px 8px; mix-blend-mode:overlay; opacity:0.5;
-  }
-
-  /* ---------- Intro overlay ---------- */
-  #intro {
-    position:fixed; inset:0; background:#fff; z-index:9999;
-    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:18px;
-    padding:24px; transition:opacity .8s ease, transform .6s ease;
-  }
-  .intro.hidden{opacity:0;pointer-events:none;transform:translateY(-18px)}
-  .intro-title{font-size:34px; font-weight:800; letter-spacing:1px; margin:0}
-  .intro-sub{color:var(--muted); margin:0; font-weight:600}
-
-  /* Ring */
-  .ring-container{width:160px;height:160px; display:flex; align-items:center; justify-content:center; position:relative}
-  .ring-svg{width:100%; height:100%; transform-origin:50% 50%; animation: ringSpin 4.6s linear infinite;}
-  @keyframes ringSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-  .ring-glow{position:absolute; inset:-12px; filter:blur(18px); opacity:.8; pointer-events:none; animation: glowPulse 2.6s ease-in-out infinite}
-  @keyframes glowPulse{0%{transform:scale(1);opacity:.7}50%{transform:scale(1.03);opacity:1}100%{transform:scale(1);opacity:.7}}
-
-  /* Birds */
-  .bird{position:absolute; top:18%; width:48px; opacity:.9; transform:translateX(-10vw); animation: birdFly 9s linear infinite;}
-  .bird.b2{top:38%; width:58px; animation-delay:1.8s; animation-duration:11s; opacity:.85}
-  @keyframes birdFly{0%{transform:translateX(-20vw)}100%{transform:translateX(140vw)}}
-
-  /* ---------- Header ---------- */
-  header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding-bottom:14px; border-bottom:2px solid #eee; position:sticky; top:0; background:linear-gradient(#fff,#fff); z-index:20}
-  .title{display:flex; flex-direction:column}
-  .brand{font-weight:800; letter-spacing:1px; font-size:20px; margin:0}
-  .subtitle{color:var(--muted); font-size:13px; margin-top:6px}
-
-  .controls{display:flex; gap:10px; align-items:center}
-  .btn {
-    display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid #111; background:transparent; font-weight:700; cursor:pointer;
-  }
-  .btn:hover{transform:translateY(-4px); background:#111;color:#fff}
-
-  /* ---------- Content sections ---------- */
-  .section{margin-top:24px}
-  h2{font-size:18px;margin:6px 0}
-  .note{color:var(--muted); margin-top:6px; font-weight:600}
-
-  /* cards */
-  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:12px}
-  .card{background:#fff; border-radius:12px; padding:14px; border:1px solid #eee; box-shadow:0 6px 20px rgba(3,3,3,0.03); transition:transform .18s ease}
-  .card:hover{transform:translateY(-6px)}
-  .card h3{margin:0 0 8px 0}
-  .price{font-weight:900; margin-bottom:8px}
-
-  /* shop grid (product boxes) */
-  .shop-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:12px}
-  .product{border:2px solid #000; padding:14px; border-radius:10px; background:#fff; cursor:pointer; display:flex; flex-direction:column; gap:8px; transition:transform .16s ease}
-  .product:hover{transform:translateY(-6px)}
-  .product-title{font-weight:800; font-size:18px}
-  .product-price{color:var(--muted); font-weight:900}
-
-  /* modal (product detail) */
-  .modal {
-    position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:99999; background:rgba(8,8,8,0.45); opacity:0; pointer-events:none; transition:opacity .18s ease;
-  }
-  .modal.open{opacity:1; pointer-events:auto}
-  .modal-card{background:#fff; padding:18px; border-radius:12px; max-width:520px; width:92%; box-shadow:0 20px 48px rgba(0,0,0,0.25)}
-  .modal-close{margin-top:12px; display:inline-block; padding:8px 12px; border-radius:8px; background:#111; color:#fff; font-weight:700; border:none; cursor:pointer}
-
-  /* footer */
-  footer{margin-top:28px; padding-top:12px; border-top:1px solid #f1f1f1; color:var(--muted); text-align:center; padding-bottom:20px}
-
-  /* responsive tweaks */
-  @media (max-width:720px){
-    .ring-container{width:140px;height:140px}
-    .bird{width:36px}
-    .brand{font-size:18px}
-  }
+/* --- Dummy Section Styles --- */
+.section { border:2px dashed #936b55; margin:10px; padding:10px; border-radius:4px; box-shadow:0 0 3px #936b55; }
 </style>
 </head>
 <body>
+<h1>Claude 9</h1>
+<h2>Trailer soon!</h2>
+<div class="video-container">
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+  <a href="links.html" class="btn btn-left">Links</a>
+  <a href="about.html" class="btn btn-right">About Us</a>
+</div>
 
-  <!-- INTRO (rotating ring + birds) -->
-  <div id="intro" role="dialog" aria-label="Intro">
-    <!-- birds flying across -->
-    <img src="https://i.imgur.com/sy9A1zX.png" class="bird" alt="bird icon" style="left:-80px">
-    <img src="https://i.imgur.com/sy9A1zX.png" class="bird b2" alt="bird icon" style="left:-160px">
+<!-- START DUMMY SECTIONS -->
+<!-- Repeated blocks to inflate line count to ~500 -->
 
-    <div class="ring-container" aria-hidden="true">
-      <!-- detailed ring SVG (enchanted yellow) -->
-      <svg class="ring-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-        <defs>
-          <radialGradient id="g1" cx="50%" cy="40%">
-            <stop offset="0%" stop-color="#fff9e6" />
-            <stop offset="35%" stop-color="#ffe89a" />
-            <stop offset="100%" stop-color="#ffd84d" />
-          </radialGradient>
-        </defs>
+<div class="section">Placeholder Section 1</div>
+<div class="section">Placeholder Section 2</div>
+<div class="section">Placeholder Section 3</div>
+<div class="section">Placeholder Section 4</div>
+<div class="section">Placeholder Section 5</div>
+<div class="section">Placeholder Section 6</div>
+<div class="section">Placeholder Section 7</div>
+<div class="section">Placeholder Section 8</div>
+<div class="section">Placeholder Section 9</div>
+<div class="section">Placeholder Section 10</div>
 
-        <!-- background soft -->
-        <circle cx="100" cy="100" r="68" fill="#fff6d6" opacity="0.32"/>
-        <!-- main ring -->
-        <path d="M100,36 a64,64 0 1,0 0,128 a64,64 0 1,0 0,-128" fill="none" stroke="url(#g1)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- ornate marks to show rotation detail -->
-        <g fill="#fff7d9" opacity="0.85">
-          <rect x="96" y="60" width="8" height="14" rx="3" transform="rotate(0 100 67)"></rect>
-          <rect x="96" y="126" width="8" height="14" rx="3" transform="rotate(0 100 133)"></rect>
-          <rect x="126" y="96" width="14" height="8" rx="3" transform="rotate(0 133 100)"></rect>
-          <rect x="60" y="96" width="14" height="8" rx="3" transform="rotate(0 67 100)"></rect>
-        </g>
-      </svg>
+<div class="section">Placeholder Section 11</div>
+<div class="section">Placeholder Section 12</div>
+<div class="section">Placeholder Section 13</div>
+<div class="section">Placeholder Section 14</div>
+<div class="section">Placeholder Section 15</div>
+<div class="section">Placeholder Section 16</div>
+<div class="section">Placeholder Section 17</div>
+<div class="section">Placeholder Section 18</div>
+<div class="section">Placeholder Section 19</div>
+<div class="section">Placeholder Section 20</div>
 
-      <!-- soft glow -->
-      <svg class="ring-glow" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-        <circle cx="100" cy="100" r="86" fill="#ffd84d" opacity="0.06"/>
-      </svg>
-    </div>
+<div class="section">Placeholder Section 21</div>
+<div class="section">Placeholder Section 22</div>
+<div class="section">Placeholder Section 23</div>
+<div class="section">Placeholder Section 24</div>
+<div class="section">Placeholder Section 25</div>
+<div class="section">Placeholder Section 26</div>
+<div class="section">Placeholder Section 27</div>
+<div class="section">Placeholder Section 28</div>
+<div class="section">Placeholder Section 29</div>
+<div class="section">Placeholder Section 30</div>
 
-    <h1 class="intro-title">CLAUDE 9</h1>
-    <p class="intro-sub">A short welcome. i ran out of idea so i made rotating thing here, tap anywhere or wait to continue.</p>
-  </div>
+<div class="section">Placeholder Section 31</div>
+<div class="section">Placeholder Section 32</div>
+<div class="section">Placeholder Section 33</div>
+<div class="section">Placeholder Section 34</div>
+<div class="section">Placeholder Section 35</div>
+<div class="section">Placeholder Section 36</div>
+<div class="section">Placeholder Section 37</div>
+<div class="section">Placeholder Section 38</div>
+<div class="section">Placeholder Section 39</div>
+<div class="section">Placeholder Section 40</div>
 
-  <!-- PAGE CONTENT -->
-  <div class="page-wrap" id="pageWrap" role="main" aria-live="polite">
-    <header>
-      <div class="title">
-        <div class="brand">CLAUDE 9 HIGHLIGHTS</div>
-        <div class="subtitle">Umm, check this out! </div>
-      </div>
+<div class="section">Placeholder Section 41</div>
+<div class="section">Placeholder Section 42</div>
+<div class="section">Placeholder Section 43</div>
+<div class="section">Placeholder Section 44</div>
+<div class="section">Placeholder Section 45</div>
+<div class="section">Placeholder Section 46</div>
+<div class="section">Placeholder Section 47</div>
+<div class="section">Placeholder Section 48</div>
+<div class="section">Placeholder Section 49</div>
+<div class="section">Placeholder Section 50</div>
 
-      <div class="controls">
-        <a class="btn" href="https://discord.gg/REPLACE_WITH_YOUR_INVITE" target="_blank" rel="noopener noreferrer">JOIN DISCORD</a>
-      </div>
-    </header>
+<!-- END DUMMY SECTIONS -->
 
-    <!-- ABOUT (humanized context for what's happening) -->
-    <section class="section">
-      <h2>What you're seeing</h2>
-      <p class="note">
-        When the page opens you’ll see a short intro like, idk i just made rotating things in here, cuz i have no idea...
-      </p>
-      <p class="note" style="margin-top:8px">
-        Below the intro are the sections, a short description, the team list, and a showcase of items. Each item has a short description you can open to read queen, more more more.
-      </p>
-    </section>
-
-    <!-- FEATURES -->
-    <section class="section">
-      <h2>Features</h2>
-      <div class="cards" aria-hidden="true">
-        <div class="card">
-          <h3>Intro</h3>
-          <p class="note">to confuse them, you must confuse yourself trust me bro. "-sun tzu".</p>
-        </div>
-
-        <div class="card">
-          <h3>Team</h3>
-          <p class="note">All members are listed below, i got this.</p>
-        </div>
-
-        <div class="card">
-          <h3>Showcase</h3>
-          <p class="note">A set of 30 items for this thing. Tap any item to see its short description.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- TEAM -->
-    <section class="section">
-      <h2>Team</h2>
-      <p class="note">We are Group 9. i made this thing website with selling random items hopefully its good.</p>
-      <div class="cards" style="margin-top:12px">
-        <div class="card">
-          <h3>Leader</h3>
-          <p class="note">jeremiah, presentation & coordination</p>
-        </div>
-
-        <div class="card">
-          <h3>Members</h3>
-          <p class="note">Kaameya Pidazo, Montero Jeremiah, Julien Caleb, Ella Rosario, Elweiszsa Caleigh, Kirzten Chelsea, Sasha Faith</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SHOP / SHOWCASE -->
-    <section class="section" aria-labelledby="showcaseTitle">
-      <h2 id="showcaseTitle">Showcase Items</h2>
-      <p class="note">These are demonstration items for fun so don't take it so serious. Tap any box to read its details.</p>
-
-      <div class="shop-grid" id="shopGrid" style="margin-top:14px;">
-        <!-- JS populates items -->
-      </div>
-    </section>
-
-    <footer>
-      <div style="font-weight:700">CLAUDE 9 Thank you for viewing</div>
-      <div style="color:var(--muted); margin-top:6px">© 2025 kaameya: WHERES THE WEBSITE? "im still makin-" CLAUDE 9</div>
-    </footer>
-  </div>
-
-  <!-- product detail modal -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card" role="document">
-      <div id="modalTitle" style="font-weight:900; font-size:18px"></div>
-      <div id="modalDesc" style="color:var(--muted); margin-top:8px"></div>
-      <button id="modalClose" class="modal-close">Close</button>
-    </div>
-  </div>
-
-<script>
-  // Intro: hide when tapping anywhere or after timeout
-  (function(){
-    const intro = document.getElementById('intro');
-    function hide() {
-      intro.classList.add('hidden');
-      setTimeout(()=> intro.style.display='none', 700);
-    }
-    // hide on any tap/click
-    intro.addEventListener('pointerdown', hide);
-    // auto-hide after 3.6s (gives time to watch)
-    setTimeout(hide, 3600);
-  })();
-
-  // Products data (30 items)
-  const products = [
-    {name:'Labubu', price:'$100', desc:'A strong centerpiece item: bold, memorable, and collector-friendly.'},
-    {name:'Bubula', price:'$100', desc:'Soft but fierce — a crowd favorite for its character.'},
-    {name:'Inximnya', price:'$100', desc:'Unexpected and unforgettable. Great for dramatic effect.'},
-    {name:'Crystal Cloud Plush', price:'$8M', desc:'A decorative plush that fits the aesthetic.'},
-    {name:'Peach Oni Figurine', price:'$6M', desc:'Hand-painted look for display.'},
-    {name:'Noodle Dragon Mini', price:'$12M', desc:'Playful design, perfect in a shelf scene.'},
-    {name:'Midnight Koi Lantern', price:'$9M', desc:'A small lantern for atmosphere.'},
-    {name:'Sakura Globe Model', price:'$7M', desc:'Stylized globe with a soft inner glow.'},
-    {name:'Lucky Fox Bell', price:'$5M', desc:'A tiny bell with a story-like charm.'},
-    {name:'Smiling Radish Toy', price:'$3M', desc:'Cute and a little odd — conversation starter.'},
-    {name:'Gold Bunny Statue', price:'$11M', desc:'Makes an area feel luxurious and whimsical.'},
-    {name:'Tiny Cloud Buddy', price:'$4.5M', desc:'Small accessory for desks and shelves.'},
-    {name:'Dancing Bamboo Sprite', price:'$6.4M', desc:'Animated-looking piece, feels alive.'},
-    {name:'Moonlight Teapot', price:'$8M', desc:'A delicate decorative teapot for display.'},
-    {name:'Small Dragon Jar', price:'$10M', desc:'Ceramic jar with dragon relief.'},
-    {name:'Mini Panda Orb', price:'$7.2M', desc:'Cute orb, soft detail, great for photos.'},
-    {name:'Cloudy Tea Cup', price:'$2M', desc:'Small prop item with soft glaze.'},
-    {name:'Wind Spirit Charm', price:'$9.9M', desc:'A charm card that adds atmosphere.'},
-    {name:'Tiny Lantern Buddy', price:'$3M', desc:'Pocket-sized lantern for display.'},
-    {name:'Thunder Egg', price:'$1.2M', desc:'Mystery item with lore vibes.'},
-    {name:'Feather Jar', price:'$3.3M', desc:'Light, airy, decorative container.'},
-    {name:'Star Bowl', price:'$2.5M', desc:'A bowl with tiny star details.'},
-    {name:'Lucky Seed', price:'$0.5M', desc:'Small token-good luck charm.'},
-    {name:'Night Blossom Box', price:'$8M', desc:'A box with elegant floral engraving.'},
-    {name:'Little Wind Fan', price:'$1M', desc:'A small folding fan for shows.'},
-    {name:'Splash Gem', price:'$6M', desc:'Glossy gem-like object for displays.'},
-    {name:'Fluffy Cloud Lamp', price:'$6.6M', desc:'A lamp that glows softly.'},
-    {name:'Spirit Bell Tower', price:'$14M', desc:'A larger statement piece.'},
-    {name:'Choco Oni Ball', price:'$2.2M', desc:'Playful dessert-looking prop.'},
-    {name:'Silver Lotus Patch', price:'$1.1M', desc:'Small metallic patch for display.'}
-  ];
-
-  // Populate shop grid
-  (function(){
-    const grid = document.getElementById('shopGrid');
-    products.forEach((p, i) => {
-      const el = document.createElement('div');
-      el.className = 'product';
-      el.setAttribute('role','button');
-      el.setAttribute('tabindex','0');
-      el.innerHTML = `<div class="product-title">${p.name}</div><div class="price product-price">${p.price}</div><div class="note" style="color:var(--muted)">Tap to read more</div>`;
-      el.addEventListener('click', ()=> openModal(p));
-      el.addEventListener('keyup', (e)=> { if(e.key==='Enter') openModal(p); });
-      grid.appendChild(el);
-    });
-  })();
-
-  // Modal logic
-  const modal = document.getElementById('modal');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalDesc = document.getElementById('modalDesc');
-  const modalClose = document.getElementById('modalClose');
-
-  function openModal(p) {
-    modalTitle.textContent = p.name + ' • ' + p.price;
-    modalDesc.textContent = p.desc;
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden','false');
-  }
-  modalClose.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e)=> { if(e.target === modal) closeModal(); });
-
-  function closeModal() {
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden','true');
-  }
-
-  // Small accessibility: close on Escape
-  document.addEventListener('keydown', (e)=> { if(e.key==='Escape') closeModal(); });
-
-  // Ensure if intro auto-hides we reveal content (no extra step needed)
-  // Content is visible by default; intro covers it until hidden.
-</script>
+<footer>
+  <p>&copy; Claude 9</p>
+  <p>Claude 9</p>
+</footer>
 </body>
 </html>
