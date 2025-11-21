@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cloud 9</title>
+<title>Ure</title>
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
@@ -33,12 +33,11 @@ h2 {
 }
 
 .video-container {
-  position:relative;
   display:inline-block;
   border:3px solid #936b55;
   border-radius:8px;
   padding:4px;
-  margin-bottom:40px;
+  margin-bottom:20px;
 }
 
 .video-container iframe {
@@ -49,12 +48,16 @@ h2 {
   border-radius:4px;
 }
 
+.buttons {
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  margin-top:10px;
+}
+
 .btn {
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  padding:8px 14px;
-  font-size:11px;
+  padding:10px 20px;
+  font-size:12px;
   text-decoration:none;
   color:#936b55;
   border:2px solid #936b55;
@@ -67,39 +70,29 @@ h2 {
 .btn:hover {
   background-color:#936b55;
   color:#f8e7dd;
-  transform:translateY(-50%) scale(1.05);
-}
-
-.btn-left { left:-100px; }
-.btn-right { right:-100px; }
-
-@media(max-width:768px){
-  .btn-left, .btn-right {
-    left:0;
-    right:0;
-    top:-40px;
-    transform:none;
-    margin-bottom:10px;
-    display:block;
-  }
+  transform:scale(1.05);
 }
 </style>
 </head>
 <body>
 
-<h1>Ure</h1>
-<h2>Trailer Coming Soon!</h2>
+<h1>Cloud 9</h1>
+<h2>Epic Trailer</h2>
 
 <div class="video-container">
   <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-  <a href="#" class="btn btn-left">Links</a>
-  <a href="#" class="btn btn-right">About Us</a>
+</div>
+
+<div class="buttons">
+  <a href="#" class="btn">Links</a>
+  <a href="#" class="btn">About Us</a>
 </div>
 
 <footer style="margin-top:40px;">
-  <p>&copy; Cloud 9</p>
-  <p>Coming Soon!</p>
+  <p>&copy; Group 9</p>
+  <p>Cloud 9</p>
 </footer>
 
 </body>
 </html>
+
